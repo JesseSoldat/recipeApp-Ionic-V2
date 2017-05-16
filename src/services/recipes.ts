@@ -10,6 +10,6 @@ export class RecipesService {
 	addRecipe(title: string, description: string,
 					difficulty: string) {
 		this.recipes.push(new Recipe(title, description, difficulty));
-		console.log(this.recipes);
+		
 	}
 }

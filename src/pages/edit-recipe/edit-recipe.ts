@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { IonicPage, NavController, NavParams,
+      ActionSheetController, AlertController, ToastController } from 'ionic-angular';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+
 import { Recipe } from '../../models/recipe';
 import { RecipesService } from '../../services/recipes';
 
@@ -13,11 +15,16 @@ export class EditRecipePage implements OnInit {
 	mode = 'New';
 	selectOptions = ['Easy', 'Medium', 'Hard'];
   recipeForm: FormGroup;
+  recipe: Recipe;
+  index: number;
 
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              private recipesService: RecipesService) {
+              private recipesService: RecipesService,
+              private actionSheetController: ActionSheetController,
+              private alertCtrl: AlertController,
+              private toastCtrl: ToastController,) {
   }
 
   ngOnInit() {
@@ -28,6 +35,9 @@ export class EditRecipePage implements OnInit {
 
   onSubmit() {
     const value = this.recipeForm.value;
+    let ingredients = [];
+
+
 
     if(this.mode == 'Edit') {
 
@@ -38,15 +48,43 @@ export class EditRecipePage implements OnInit {
     this.navCtrl.popToRoot();
   }
 
+  onManageIngredients() {
+    const actionSheet = this.actionSheetController.create({
+      title: 'What do you want to do?',
+      buttons: [
+        {
+          text: 'Add Ingredient',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'Remove all Ingredients',
+          role: 'destructive',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
   private initializeForm() {
   	let title = null;
   	let description = null;
   	let difficulty = 'Medium';
+    let ingredients = [];
 
     this.recipeForm = new FormGroup({
       'title': new FormControl(title, Validators.required),
       'description': new FormControl(description, Validators.required),
-      'difficulty': new FormControl(difficulty, Validators.required)
+      'difficulty': new FormControl(difficulty, Validators.required),
+      'ingredients': new FormArray(ingredients)
     });
   }
 }
