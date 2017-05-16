@@ -10,7 +10,7 @@ import { RecipePage } from "../pages/recipe/recipe";
 import { RecipesPage } from "../pages/recipes/recipes";
 import { ShoppingListPage } from "../pages/shopping-list/shopping-list";
 import { TabsPage } from "../pages/tabs/tabs";
-import { ShoppingListService } from "../services/shopping-list";
+// import { ShoppingListService } from "../services/shopping-list";
 import { RecipesService } from "../services/recipes";
 
 @NgModule({
@@ -38,7 +38,8 @@ import { RecipesService } from "../services/recipes";
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    RecipesService
   ]
 })
 export class AppModule {}
