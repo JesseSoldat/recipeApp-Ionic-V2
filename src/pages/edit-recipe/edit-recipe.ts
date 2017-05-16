@@ -93,6 +93,36 @@ export class EditRecipePage implements OnInit {
       ]
     });
     actionSheet.present();
+
+
+   // let actionSheet = this.actionSheetController.create({
+   //   title: 'Modify your album',
+   //   buttons: [
+   //     {
+   //       text: 'Destructive',
+   //       role: 'destructive',
+   //       handler: () => {
+   //         console.log('Destructive clicked');
+   //       }
+   //     },
+   //     {
+   //       text: 'Archive',
+   //       handler: () => {
+   //         console.log('Archive clicked');
+   //       }
+   //     },
+   //     {
+   //       text: 'Cancel',
+   //       role: 'cancel',
+   //       handler: () => {
+   //         console.log('Cancel clicked');
+   //       }
+   //     }
+   //   ]
+   // });
+
+   actionSheet.present();
+
   }
 
   private createNewIngredientAlert() {
