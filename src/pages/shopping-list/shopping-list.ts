@@ -1,24 +1,33 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
+import { NgForm } from '@angular/forms';
+import { Ingredient } from '../../models/ingredient';
+import { ShoppingListService } from "../../services/shopping-list";
 
-/**
- * Generated class for the ShoppingListPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+
 @IonicPage()
 @Component({
   selector: 'page-shopping-list',
   templateUrl: 'shopping-list.html',
 })
 export class ShoppingListPage {
+	listItems: Ingredient[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private slService: ShoppingListService) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ShoppingListPage');
+  	this.loadItems();
+  }
+
+  onAddItem(form: NgForm) {
+  	this.slService.addItem(form.value.ingredientName, form.value.amount);
+  	form.reset();
+  	this.loadItems();
+  }
+
+  private loadItems() {
+  	this.listItems = this.slService.getItems();
   }
 
 }
