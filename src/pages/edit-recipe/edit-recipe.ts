@@ -37,12 +37,17 @@ export class EditRecipePage implements OnInit {
     const value = this.recipeForm.value;
     let ingredients = [];
 
-
+    if(value.ingredients.length > 0) {
+      ingredients = value.ingredients.map(name => {
+        return {name: name, amount: 1};
+      });
+    }
 
     if(this.mode == 'Edit') {
 
     } else {
-      this.recipesService.addRecipe(value.title, value.description, value.difficulty);
+      this.recipesService.addRecipe(value.title, 
+        value.description, value.difficulty, ingredients);
     }
     this.recipeForm.reset();
     this.navCtrl.popToRoot();
@@ -62,7 +67,19 @@ export class EditRecipePage implements OnInit {
           text: 'Remove all Ingredients',
           role: 'destructive',
           handler: () => {
-
+            const fArray: FormArray = <FormArray>this.recipeForm.get('ingredients');
+            const length = fArray.length;
+            if(length > 0) {
+              for(let i = length - 1; i >= 0; i--) {
+                fArray.removeAt(i);
+              }
+              const toast = this.toastCtrl.create({
+                message: 'All Ingredients were deleted!',
+                duration: 1500,
+                position: 'bottom'
+              });
+              toast.present();
+            }
           }
         },
         {
@@ -87,7 +104,6 @@ export class EditRecipePage implements OnInit {
         {
           text: 'Add',
           handler: data => {
-            console.log(data);
            if(data.name.trim() == '' || data.name == null) {
              return;
            }
