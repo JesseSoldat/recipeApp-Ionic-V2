@@ -29,7 +29,10 @@ export class EditRecipePage implements OnInit {
 
   ngOnInit() {
   	this.mode = this.navParams.get('mode');
-
+    if(this.mode == 'Edit') {
+      this.recipe = this.navParams.get('recipe');
+      this.index = this.navParams.get('index');
+    }
   	this.initializeForm();
   }
 
@@ -44,7 +47,8 @@ export class EditRecipePage implements OnInit {
     }
 
     if(this.mode == 'Edit') {
-
+      this.recipesService.updateRecipe(this.index, value.title,
+        value.description, value.difficulty, ingredients);
     } else {
       this.recipesService.addRecipe(value.title, 
         value.description, value.difficulty, ingredients);
@@ -105,10 +109,22 @@ export class EditRecipePage implements OnInit {
           text: 'Add',
           handler: data => {
            if(data.name.trim() == '' || data.name == null) {
+             const toast = this.toastCtrl.create({
+               message: 'Please enter a valid value!',
+               duration: 1500,
+               position: 'bottom'
+             });
+             toast.present();
              return;
            }
            (<FormArray>this.recipeForm.get('ingredients'))
              .push(new FormControl(data.name, Validators.required));
+             const toast = this.toastCtrl.create({
+               message: 'Item added!',
+               duration: 1500,
+               position: 'bottom'
+             });
+             toast.present();
           }
         },
         {
@@ -124,6 +140,15 @@ export class EditRecipePage implements OnInit {
   	let description = null;
   	let difficulty = 'Medium';
     let ingredients = [];
+
+    if(this.mode == 'Edit') {
+      title = this.recipe.title;
+      description = this.recipe.description;
+      difficulty = this.recipe.difficulty;
+      for(let ingredient of this.recipe.ingredients) {
+        ingredients.push(new FormControl(ingredient.name, Validators.required));
+      }
+    }
 
     this.recipeForm = new FormGroup({
       'title': new FormControl(title, Validators.required),

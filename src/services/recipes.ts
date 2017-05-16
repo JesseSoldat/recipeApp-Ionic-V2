@@ -11,6 +11,15 @@ export class RecipesService {
 	addRecipe(title: string, description: string,
 					difficulty: string, ingredients: Ingredient[]) {
 		this.recipes.push(new Recipe(title, description, difficulty, ingredients));
+	}
 
+	updateRecipe(index: number, title: string,
+							description: string, difficulty: string,
+							ingredients: Ingredient[]) {
+		this.recipes[index] = new Recipe(title, description, difficulty, ingredients);
+	}
+
+	removeRecipe(index: number) {
+		this.recipes.splice(index, 1);
 	}
 }

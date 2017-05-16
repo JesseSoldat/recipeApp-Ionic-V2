@@ -11,6 +11,10 @@ export class ShoppingListService {
 		this.ingredients.push(new Ingredient(name, amount));
 	}
 
+	addItems(items: Ingredient[]) {
+		this.ingredients.push(...items);
+	}
+
 	removeItem(index: number) {
 		this.ingredients.splice(index, 1);
 	}

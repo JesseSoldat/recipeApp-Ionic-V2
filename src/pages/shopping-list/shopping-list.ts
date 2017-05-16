@@ -16,7 +16,7 @@ export class ShoppingListPage {
   constructor(private slService: ShoppingListService) {
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
   	this.loadItems();
   }
 
