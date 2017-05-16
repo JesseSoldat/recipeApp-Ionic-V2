@@ -55,7 +55,7 @@ export class EditRecipePage implements OnInit {
         {
           text: 'Add Ingredient',
           handler: () => {
-
+            this.createNewIngredientAlert().present();
           }
         },
         {
@@ -72,6 +72,35 @@ export class EditRecipePage implements OnInit {
       ]
     });
     actionSheet.present();
+  }
+
+  private createNewIngredientAlert() {
+    return this.alertCtrl.create({
+      title: 'Add Ingredient',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Add',
+          handler: data => {
+            console.log(data);
+           if(data.name.trim() == '' || data.name == null) {
+             return;
+           }
+           (<FormArray>this.recipeForm.get('ingredients'))
+             .push(new FormControl(data.name, Validators.required));
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
   }
 
   private initializeForm() {
