@@ -11,6 +11,21 @@
 				<ion-icon name="book"></ion-icon>
 				Recipe Book
 			</button>
+			<button ion-item icon-left
+				(click)="onLoad(signinPage)">
+				<ion-icon name="log-in"></ion-icon>
+				Signin
+			</button>
+			<button ion-item icon-left
+				(click)="onLoad(signupPage)">
+				<ion-icon name="person"></ion-icon>
+				Signup
+			</button>
+			<button ion-item icon-left
+				(click)="onLogout()">
+				<ion-icon name="log-out"></ion-icon>
+				Logout
+			</button>
 		</ion-list>
 	</ion-content>
 </ion-menu>

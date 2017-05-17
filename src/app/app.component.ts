@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform, NavController, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import firebase from 'firebase';
@@ -16,6 +16,7 @@ export class MyApp {
   rootPage:any = TabsPage;
   signinPage = SigninPage;
   signupPage = SignupPage;
+  @ViewChild('nav') navCtrl: NavController
 
   config = {
     apiKey: "AIzaSyAw5uIZdlyPYjBuYoc8zRjbiv0-lxWANys",
@@ -26,7 +27,9 @@ export class MyApp {
     messagingSenderId: "1016399993027"
   };
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform, statusBar: StatusBar, 
+          splashScreen: SplashScreen, 
+         private menuCtrl: MenuController) {
     
     firebase.initializeApp(this.config);
     firebase.auth().onAuthStateChanged(user => {
@@ -46,6 +49,11 @@ export class MyApp {
   }
 
   onLoad(page: any) {
+    this.navCtrl.setRoot(page);
+    this.menuCtrl.close();
+  }
+
+  onLogout() {
 
   }
 }
