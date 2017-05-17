@@ -16,6 +16,7 @@ export class MyApp {
   rootPage:any = TabsPage;
   signinPage = SigninPage;
   signupPage = SignupPage;
+  isAuthenticated = false;
   @ViewChild('nav') navCtrl: NavController
 
   config = {
@@ -29,13 +30,17 @@ export class MyApp {
 
   constructor(platform: Platform, statusBar: StatusBar, 
           splashScreen: SplashScreen, 
-         private menuCtrl: MenuController) {
+         private menuCtrl: MenuController,
+         private authService: AuthService) {
     
     firebase.initializeApp(this.config);
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
+        console.log(user);
+        this.isAuthenticated = true;
         this.rootPage = TabsPage;
       } else {
+        this.isAuthenticated = false;
         this.rootPage = SigninPage;
       }
     });
@@ -54,7 +59,9 @@ export class MyApp {
   }
 
   onLogout() {
-
+    this.authService.logout();
+    this.menuCtrl.close();
+    this.navCtrl.setRoot(SigninPage);
   }
 }
 
