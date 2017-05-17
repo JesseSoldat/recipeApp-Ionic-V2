@@ -1,10 +1,18 @@
 import { Recipe } from '../models/recipe';
 import { Ingredient } from '../models/ingredient';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { AuthService } from './auth';
+import 'rxjs/Rx';
 
+@Injectable()
 export class RecipesService {
 	private recipes: Recipe[] = [];
 
-	getRecipes() {
+	constructor(private authService: AuthService,
+							private http: Http) {}
+
+	getRecipes() { 
 		return this.recipes.slice();
 	}
 
@@ -21,5 +29,12 @@ export class RecipesService {
 
 	removeRecipe(index: number) {
 		this.recipes.splice(index, 1);
+	}
+
+	storeList(token: string) {
+		const userId = this.authService.getActiveUser().uid;
+		return this.http.put('https://playground-3f11f.firebaseio.com/recipebook/'+userId+
+				'/recipes.json?auth='+token, this.recipes)
+			.map((res: Response) => res.json());
 	}
 }
