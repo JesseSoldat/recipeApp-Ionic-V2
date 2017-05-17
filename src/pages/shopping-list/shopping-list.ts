@@ -36,3 +36,13 @@ export class ShoppingListPage {
   }
 
 }
+
+
+// .subscribe(
+//   ...
+//   ,
+//   error => {
+//     loading.dismiss();
+//     this.handleError(error.json().error);
+//   }
+// );
