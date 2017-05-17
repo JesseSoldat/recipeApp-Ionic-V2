@@ -6,7 +6,6 @@ export class AuthService {
 	}
 
 	signin(email: string, password: string) {
-		console.log(email, password);
 		return firebase.auth().signInWithEmailAndPassword(email, password);
 	}
 

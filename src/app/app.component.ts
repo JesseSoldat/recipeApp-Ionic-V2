@@ -36,7 +36,6 @@ export class MyApp {
     firebase.initializeApp(this.config);
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
-        console.log(user);
         this.isAuthenticated = true;
         this.rootPage = TabsPage;
       } else {
