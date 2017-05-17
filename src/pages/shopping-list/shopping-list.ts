@@ -75,8 +75,13 @@ export class ShoppingListPage {
     })
   }
 
-  handleError(err) {
-    console.log(err);
+  handleError(errMessage: string) {
+    const alert = this.alertCtrl.create({
+      title: 'An error occured!',
+      message: errMessage,
+      buttons: ['Ok']
+    });
+    alert.present();
   }
 
   onRemoveItem(index: number) {

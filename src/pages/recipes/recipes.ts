@@ -50,8 +50,19 @@ export class RecipesPage {
         loading.present();
         this.authService.getActiveUser().getToken()
           .then((token: string) => {
-
-          })
+            this.recipesService.loadList(token)
+              .subscribe((list: Recipe[]) => {
+                loading.dismiss();
+                if(list) {
+                  this.recipes = list;
+                } else {
+                  this.recipes = [];
+                }
+              }, err => {
+                loading.dismiss();
+                this.handleError(err.json().error);
+              });
+          });
 
       } else if (data.action == 'store') {
         loading.present();
@@ -62,15 +73,20 @@ export class RecipesPage {
                 err => {
                   loading.dismiss();
                   this.handleError(err.json().error)
-                })
-          })
+                });
+          });
       }
-    })
+    });
 
   }
 
-  handleError(err) {
-    console.log(err);
+  handleError(errMessage: string) {
+    const alert = this.alertCtrl.create({
+      title: 'An error occured!',
+      message: errMessage,
+      buttons: ['Ok']
+    });
+    alert.present();
   }
  
 
